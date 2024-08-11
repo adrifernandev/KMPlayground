@@ -21,13 +21,26 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil3.ImageLoader
+import coil3.annotation.ExperimentalCoilApi
 import coil3.compose.AsyncImage
+import coil3.compose.setSingletonImageLoaderFactory
+import coil3.request.crossfade
+import coil3.util.DebugLogger
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
+        setSingletonImageLoaderFactory { context ->
+            ImageLoader.Builder(context)
+                .crossfade(true)
+                .logger(DebugLogger())
+                .build()
+        }
+
         Surface(
             modifier = Modifier.fillMaxSize()
         ) {
