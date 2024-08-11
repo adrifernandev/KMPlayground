@@ -27,11 +27,12 @@ class HomeViewModel(
 
     private fun fetchPopularMovies() {
         viewModelScope.launch {
-            val movies = moviesRepository.fetchPopularMovies()
-            state = state.copy(
-                isLoading = false,
-                movies = movies
-            )
+            moviesRepository.movies.collect {
+                state = state.copy(
+                    isLoading = false,
+                    movies = it
+                )
+            }
         }
     }
 

@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.adrifernandevs.kmplayground.data.database.MoviesDao
 import com.adrifernandevs.kmplayground.data.repository.MoviesRepository
 import com.adrifernandevs.kmplayground.data.service.MoviesService
 import com.adrifernandevs.kmplayground.ui.screens.detail.DetailScreen
@@ -25,9 +26,11 @@ import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun Navigation() {
+fun Navigation(
+    moviesDao: MoviesDao
+) {
     val navController = rememberNavController()
-    val moviesRepository = rememberMoviesRepository()
+    val moviesRepository = rememberMoviesRepository(moviesDao = moviesDao)
 
     NavHost(
         navController = navController,
@@ -63,7 +66,8 @@ fun Navigation() {
 
 @Composable
 private fun rememberMoviesRepository(
-    apiKey: String = stringResource(Res.string.tmdb_api_key)
+    apiKey: String = stringResource(Res.string.tmdb_api_key),
+    moviesDao: MoviesDao
 ): MoviesRepository = remember {
     val client =
         HttpClient {
@@ -81,9 +85,10 @@ private fun rememberMoviesRepository(
             }
         }
     val repository = MoviesRepository(
-        MoviesService(
+        moviesService = MoviesService(
             client = client
-        )
+        ),
+        moviesDao = moviesDao
     )
     repository
 }

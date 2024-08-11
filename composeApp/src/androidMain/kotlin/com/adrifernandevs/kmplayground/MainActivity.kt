@@ -4,8 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import com.adrifernandevs.kmplayground.data.database.getDatabaseBuilder
 import com.adrifernandevs.kmplayground.utils.EnableTransparentStatusBar
 
 class MainActivity : ComponentActivity() {
@@ -14,13 +13,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             EnableTransparentStatusBar()
-            App()
+            val db = getDatabaseBuilder(this).build().moviesDao()
+            App(db)
         }
     }
-}
-
-@Preview
-@Composable
-fun AppAndroidPreview() {
-    App()
 }

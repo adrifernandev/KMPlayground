@@ -28,11 +28,14 @@ class DetailViewModel(
 
     private fun fetchMovieById() {
         viewModelScope.launch {
-            val movie = moviesRepository.fetchMovieById(movieId)
-            state = state.copy(
-                isLoading = false,
-                movie = movie
-            )
+            moviesRepository.fetchMovieById(movieId).collect {
+                it?.let {
+                    state = state.copy(
+                        isLoading = false,
+                        movie = it
+                    )
+                }
+            }
         }
     }
 }
