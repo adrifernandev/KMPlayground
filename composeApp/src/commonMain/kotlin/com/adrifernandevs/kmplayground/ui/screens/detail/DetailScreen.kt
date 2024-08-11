@@ -123,7 +123,7 @@ private fun MovieDetailContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(16f / 9f),
-            model = movie.poster,
+            model = movie.backdrop ?: movie.poster,
             contentDescription = movie.title,
             contentScale = ContentScale.Crop
         )
