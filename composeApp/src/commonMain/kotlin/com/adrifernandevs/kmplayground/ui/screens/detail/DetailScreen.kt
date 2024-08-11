@@ -20,8 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.adrifernandevs.kmplayground.Movie
-import com.adrifernandevs.kmplayground.movies
+import com.adrifernandevs.kmplayground.domain.model.Movie
 import com.adrifernandevs.kmplayground.ui.screens.Screen
 import kmplayground.composeapp.generated.resources.Res
 import kmplayground.composeapp.generated.resources.go_back

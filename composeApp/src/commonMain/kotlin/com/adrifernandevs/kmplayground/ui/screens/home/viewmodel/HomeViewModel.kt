@@ -5,32 +5,35 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.adrifernandevs.kmplayground.Movie
-import com.adrifernandevs.kmplayground.movies
-import kotlinx.coroutines.delay
+import com.adrifernandevs.kmplayground.data.response.toMovie
+import com.adrifernandevs.kmplayground.data.service.MoviesService
+import com.adrifernandevs.kmplayground.domain.model.Movie
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-
+private val moviesService: MoviesService
 ) : ViewModel() {
+
+    data class UiState(
+        val isLoading: Boolean = true,
+        val movies: List<Movie> = emptyList(),
+    )
 
     var state by mutableStateOf(UiState())
         private set
 
     init {
+        fetchPopularMovies()
+    }
+
+    private fun fetchPopularMovies() {
         viewModelScope.launch {
-            state = state.copy(isLoading = true)
-            delay(2000)
+            val movies = moviesService.fetchPopularMovies()
             state = state.copy(
                 isLoading = false,
-                movies = movies
+                movies = movies.results.toMovie()
             )
         }
     }
-
-    data class UiState(
-        val isLoading: Boolean = false,
-        val movies: List<Movie> = emptyList(),
-    )
 
 }

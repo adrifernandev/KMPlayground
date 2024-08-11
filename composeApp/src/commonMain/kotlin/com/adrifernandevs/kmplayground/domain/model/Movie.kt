@@ -1,4 +1,4 @@
-package com.adrifernandevs.kmplayground
+package com.adrifernandevs.kmplayground.domain.model
 
 data class Movie(
     val id: Int,
