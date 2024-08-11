@@ -2,7 +2,6 @@ package com.adrifernandevs.kmplayground.ui.screens.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -29,6 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.adrifernandevs.kmplayground.domain.model.Movie
+import com.adrifernandevs.kmplayground.ui.designsystem.components.LoadingIndicator
 import com.adrifernandevs.kmplayground.ui.screens.Screen
 import com.adrifernandevs.kmplayground.ui.screens.home.viewmodel.HomeViewModel
 import kmplayground.composeapp.generated.resources.Res
@@ -54,14 +53,11 @@ fun HomeScreen(
         ) { paddingValues ->
             val state = viewModel.state
             if (state.isLoading) {
-                Box(
+                LoadingIndicator(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(paddingValues),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
+                        .padding(paddingValues)
+                )
             }
             LazyVerticalGrid(
                 modifier = Modifier.padding(paddingValues),

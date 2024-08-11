@@ -1,4 +1,4 @@
-package com.adrifernandevs.kmplayground.ui.screens.home.viewmodel
+package com.adrifernandevs.kmplayground.ui.screens.detail.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -9,30 +9,30 @@ import com.adrifernandevs.kmplayground.data.repository.MoviesRepository
 import com.adrifernandevs.kmplayground.domain.model.Movie
 import kotlinx.coroutines.launch
 
-class HomeViewModel(
-    private val moviesRepository: MoviesRepository
+class DetailViewModel(
+    private val movieId: Int,
+    private val moviesRepository: MoviesRepository,
 ) : ViewModel() {
 
     data class UiState(
         val isLoading: Boolean = true,
-        val movies: List<Movie> = emptyList(),
+        val movie: Movie? = null
     )
 
     var state by mutableStateOf(UiState())
         private set
 
     init {
-        fetchPopularMovies()
+        fetchMovieById()
     }
 
-    private fun fetchPopularMovies() {
+    private fun fetchMovieById() {
         viewModelScope.launch {
-            val movies = moviesRepository.fetchPopularMovies()
+            val movie = moviesRepository.fetchMovieById(movieId)
             state = state.copy(
                 isLoading = false,
-                movies = movies
+                movie = movie
             )
         }
     }
-
 }

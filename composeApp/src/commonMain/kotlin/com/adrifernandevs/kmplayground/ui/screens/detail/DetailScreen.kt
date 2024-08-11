@@ -2,6 +2,7 @@ package com.adrifernandevs.kmplayground.ui.screens.detail
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -18,10 +19,12 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.adrifernandevs.kmplayground.domain.model.Movie
+import com.adrifernandevs.kmplayground.ui.designsystem.components.LoadingIndicator
 import com.adrifernandevs.kmplayground.ui.screens.Screen
+import com.adrifernandevs.kmplayground.ui.screens.detail.viewmodel.DetailViewModel
 import kmplayground.composeapp.generated.resources.Res
 import kmplayground.composeapp.generated.resources.go_back
 import org.jetbrains.compose.resources.stringResource
@@ -29,14 +32,19 @@ import org.jetbrains.compose.resources.stringResource
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-    movie: Movie,
+    viewModel: DetailViewModel,
     onNavigateBack: () -> Unit
 ) {
+    val state = viewModel.state
     Screen {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(movie.title) },
+                    title = { Text(
+                        text = state.movie?.title ?: "",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    ) },
                     navigationIcon = {
                         IconButton(onClick = onNavigateBack) {
                             Icon(
@@ -47,25 +55,34 @@ fun DetailScreen(
                     }
                 )
             }
-        ){ paddingValues ->
-            Column(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .verticalScroll(rememberScrollState())
-            ) {
-                AsyncImage(
+        ) { paddingValues ->
+            if (state.isLoading) {
+                LoadingIndicator(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(16f / 9f),
-                    model = movie.poster,
-                    contentDescription = movie.title,
-                    contentScale = ContentScale.Crop
+                        .fillMaxSize()
+                        .padding(paddingValues)
                 )
-                Text(
-                    text = movie.title,
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.titleLarge
-                )
+            }
+            state.movie?.let {
+                Column(
+                    modifier = Modifier
+                        .padding(paddingValues)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    AsyncImage(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(16f / 9f),
+                        model = it.poster,
+                        contentDescription = it.title,
+                        contentScale = ContentScale.Crop
+                    )
+                    Text(
+                        text = it.title,
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                }
             }
         }
     }

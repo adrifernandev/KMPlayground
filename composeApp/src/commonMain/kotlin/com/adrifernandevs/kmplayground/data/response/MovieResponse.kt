@@ -32,4 +32,4 @@ fun MovieResponse.toMovie() = Movie(
     poster = "https://image.tmdb.org/t/p/w500$posterPath"
 )
 
-fun List<MovieResponse>.toMovie() = map { it.toMovie() }
+fun List<MovieResponse>.toMovieList() = map { it.toMovie() }
