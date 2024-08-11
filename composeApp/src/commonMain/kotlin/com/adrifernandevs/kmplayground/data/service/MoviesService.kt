@@ -11,13 +11,13 @@ class MoviesService(
 ) {
     suspend fun fetchPopularMovies(): MovieResponseResult {
         return client
-            .get("/discover/movie?sort_by=popularity.desc")
+            .get("/3/discover/movie?sort_by=popularity.desc")
             .body<MovieResponseResult>()
     }
 
     suspend fun fetchMovieById(id: Int): MovieResponse {
         return client
-            .get("/movie/$id")
+            .get("/3/movie/$id")
             .body<MovieResponse>()
     }
 }
