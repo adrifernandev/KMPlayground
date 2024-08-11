@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">KMPlayground</string>
     <string name="go_back">Go back</string>
+    <string name="release_date">Release Date</string>
+    <string name="original_title">Original Title</string>
+    <string name="original_language">Original Language</string>
+    <string name="popularity">Popularity</string>
+    <string name="vote_average">Vote Average</string>
 </resources>

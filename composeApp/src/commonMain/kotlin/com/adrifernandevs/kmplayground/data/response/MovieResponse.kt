@@ -29,7 +29,14 @@ data class MovieResponse(
 fun MovieResponse.toMovie() = Movie(
     id = id,
     title = title,
-    poster = "https://image.tmdb.org/t/p/w500$posterPath"
+    poster = "https://image.tmdb.org/t/p/w500$posterPath",
+    overview = overview,
+    releaseDate = releaseDate,
+    backdrop = backdropPath?.let { "https://image.tmdb.org/t/p/w780$it" },
+    originalTitle = originalTitle,
+    originalLanguage = originalLanguage,
+    popularity = popularity,
+    voteAverage = voteAverage
 )
 
 fun List<MovieResponse>.toMovieList() = map { it.toMovie() }
