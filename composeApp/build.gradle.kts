@@ -45,6 +45,8 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
         }
     }
+
+    task("testClasses")
 }
 
 android {
