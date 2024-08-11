@@ -1,5 +1,6 @@
 package com.adrifernandevs.kmplayground.ui.screens.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,7 +34,9 @@ import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onMovieClicked: (Movie) -> Unit
+) {
     Screen {
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
         Scaffold(
@@ -53,7 +56,10 @@ fun HomeScreen() {
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(movies, key = { it.id }) { movie ->
-                    MovieItem(movie = movie)
+                    MovieItem(
+                        movie = movie,
+                        onMovieClicked = { onMovieClicked(movie) }
+                    )
                 }
             }
         }
@@ -61,8 +67,13 @@ fun HomeScreen() {
 }
 
 @Composable
-private fun MovieItem(movie: Movie) {
+private fun MovieItem(
+    movie: Movie,
+    onMovieClicked: (Movie) -> Unit
+) {
     Column(
+        modifier = Modifier
+            .clickable { onMovieClicked(movie) },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AsyncImage(
