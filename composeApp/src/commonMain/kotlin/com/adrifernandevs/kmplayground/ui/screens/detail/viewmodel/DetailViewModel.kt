@@ -19,11 +19,23 @@ class DetailViewModel(
         val movie: Movie? = null
     )
 
+    sealed class UiEvent {
+        data object OnFavouriteClicked : UiEvent()
+    }
+
     var state by mutableStateOf(UiState())
         private set
 
     init {
         fetchMovieById()
+    }
+
+    fun onEvent(event: UiEvent) {
+        when (event) {
+            is UiEvent.OnFavouriteClicked -> {
+                toggleFavorite()
+            }
+        }
     }
 
     private fun fetchMovieById() {
@@ -35,6 +47,14 @@ class DetailViewModel(
                         movie = it
                     )
                 }
+            }
+        }
+    }
+
+    private fun toggleFavorite() {
+        state.movie?.let {
+            viewModelScope.launch {
+                moviesRepository.toggleFavorite(it)
             }
         }
     }

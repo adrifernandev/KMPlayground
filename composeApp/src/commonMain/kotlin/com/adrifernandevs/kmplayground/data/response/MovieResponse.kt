@@ -36,7 +36,8 @@ fun MovieResponse.toMovie() = Movie(
     originalTitle = originalTitle,
     originalLanguage = originalLanguage,
     popularity = popularity,
-    voteAverage = voteAverage
+    voteAverage = voteAverage,
+    isFavorite = false
 )
 
 fun List<MovieResponse>.toMovieList() = map { it.toMovie() }

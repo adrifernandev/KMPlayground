@@ -26,4 +26,8 @@ class MoviesRepository(
                 moviesDao.insertMovies(listOf(movieFromService))
             }
     }
+
+    suspend fun toggleFavorite(movie: Movie) {
+        moviesDao.saveMovie(movie.copy(isFavorite = !movie.isFavorite))
+    }
 }

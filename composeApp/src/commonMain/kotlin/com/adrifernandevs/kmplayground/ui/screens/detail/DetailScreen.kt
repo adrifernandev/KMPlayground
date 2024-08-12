@@ -9,7 +9,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -37,6 +40,7 @@ import com.adrifernandevs.kmplayground.ui.screens.Screen
 import com.adrifernandevs.kmplayground.ui.screens.detail.viewmodel.DetailViewModel
 import kmplayground.composeapp.generated.resources.Res
 import kmplayground.composeapp.generated.resources.go_back
+import kmplayground.composeapp.generated.resources.mark_as_favorite
 import kmplayground.composeapp.generated.resources.original_language
 import kmplayground.composeapp.generated.resources.original_title
 import kmplayground.composeapp.generated.resources.popularity
@@ -63,6 +67,22 @@ fun DetailScreen(
                     onNavigateBack = onNavigateBack,
                     scrollBehavior = scrollBehavior
                 )
+            },
+            floatingActionButton = {
+                state.movie?.let {
+                    FloatingActionButton(
+                        onClick = {}
+                    ) {
+                        IconButton(
+                            onClick = { viewModel.onEvent(DetailViewModel.UiEvent.OnFavouriteClicked) }
+                        ) {
+                            Icon(
+                                imageVector = if (it.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                                contentDescription = stringResource(Res.string.mark_as_favorite)
+                            )
+                        }
+                    }
+                }
             }
         ) { paddingValues ->
             if (state.isLoading) {
