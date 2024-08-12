@@ -33,8 +33,10 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.adrifernandevs.kmplayground.domain.model.Movie
 import com.adrifernandevs.kmplayground.ui.designsystem.components.LoadingIndicator
+import com.adrifernandevs.kmplayground.ui.permissions.PermissionRequestEffect
 import com.adrifernandevs.kmplayground.ui.screens.Screen
 import com.adrifernandevs.kmplayground.ui.screens.home.viewmodel.HomeViewModel
+import dev.icerock.moko.permissions.Permission
 import kmplayground.composeapp.generated.resources.Res
 import kmplayground.composeapp.generated.resources.app_name
 import kmplayground.composeapp.generated.resources.favorite
@@ -48,6 +50,10 @@ fun HomeScreen(
     onMovieClicked: (Movie) -> Unit,
     viewModel: HomeViewModel = koinViewModel()
 ) {
+    PermissionRequestEffect(Permission.COARSE_LOCATION) {
+        viewModel.onEvent(HomeViewModel.UiEvent.OnUiReady)
+    }
+
     Screen {
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
         Scaffold(

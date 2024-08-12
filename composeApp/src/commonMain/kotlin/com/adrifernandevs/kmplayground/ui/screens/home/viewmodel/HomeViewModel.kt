@@ -18,11 +18,17 @@ class HomeViewModel(
         val movies: List<Movie> = emptyList(),
     )
 
+    sealed class UiEvent {
+        data object OnUiReady : UiEvent()
+    }
+
     var state by mutableStateOf(UiState())
         private set
 
-    init {
-        fetchPopularMovies()
+    fun onEvent(event: UiEvent) {
+        when (event) {
+            UiEvent.OnUiReady -> fetchPopularMovies()
+        }
     }
 
     private fun fetchPopularMovies() {
