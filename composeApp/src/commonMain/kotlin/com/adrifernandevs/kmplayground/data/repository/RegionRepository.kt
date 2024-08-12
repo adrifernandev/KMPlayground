@@ -1,8 +1,15 @@
 package com.adrifernandevs.kmplayground.data.repository
 
-class RegionRepository {
+const val DEFAULT_APP_REGION = "US"
 
-    fun fetchRegion(): String {
-        return "US"
+interface RegionDataSource {
+    suspend fun fetchRegion(): String
+}
+
+class RegionRepository(
+    private val regionDataSource: RegionDataSource
+) {
+    suspend fun fetchRegion(): String {
+        return regionDataSource.fetchRegion()
     }
 }
