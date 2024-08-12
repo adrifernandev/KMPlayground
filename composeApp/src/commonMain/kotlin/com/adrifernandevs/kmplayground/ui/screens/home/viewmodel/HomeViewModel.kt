@@ -1,12 +1,11 @@
 package com.adrifernandevs.kmplayground.ui.screens.home.viewmodel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adrifernandevs.kmplayground.data.repository.MoviesRepository
 import com.adrifernandevs.kmplayground.domain.model.Movie
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -22,8 +21,8 @@ class HomeViewModel(
         data object OnUiReady : UiEvent()
     }
 
-    var state by mutableStateOf(UiState())
-        private set
+    private val _state = MutableStateFlow(UiState())
+    val state: StateFlow<UiState> = _state
 
     fun onEvent(event: UiEvent) {
         when (event) {
@@ -34,7 +33,7 @@ class HomeViewModel(
     private fun fetchPopularMovies() {
         viewModelScope.launch {
             moviesRepository.movies.collect {
-                state = state.copy(
+                _state.value = _state.value.copy(
                     isLoading = false,
                     movies = it
                 )

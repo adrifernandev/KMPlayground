@@ -1,12 +1,11 @@
 package com.adrifernandevs.kmplayground.ui.screens.detail.viewmodel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adrifernandevs.kmplayground.data.repository.MoviesRepository
 import com.adrifernandevs.kmplayground.domain.model.Movie
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
@@ -23,8 +22,8 @@ class DetailViewModel(
         data object OnFavouriteClicked : UiEvent()
     }
 
-    var state by mutableStateOf(UiState())
-        private set
+    private val _state = MutableStateFlow(UiState())
+    val state: StateFlow<UiState> = _state
 
     init {
         fetchMovieById()
@@ -42,7 +41,7 @@ class DetailViewModel(
         viewModelScope.launch {
             moviesRepository.fetchMovieById(movieId).collect {
                 it?.let {
-                    state = state.copy(
+                    _state.value = _state.value.copy(
                         isLoading = false,
                         movie = it
                     )
@@ -52,7 +51,7 @@ class DetailViewModel(
     }
 
     private fun toggleFavorite() {
-        state.movie?.let {
+        _state.value.movie?.let {
             viewModelScope.launch {
                 moviesRepository.toggleFavorite(it)
             }

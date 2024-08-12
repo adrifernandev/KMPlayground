@@ -21,6 +21,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
@@ -54,7 +56,7 @@ fun DetailScreen(
     viewModel: DetailViewModel,
     onNavigateBack: () -> Unit
 ) {
-    val state = viewModel.state
+    val state by viewModel.state.collectAsState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     Screen {
