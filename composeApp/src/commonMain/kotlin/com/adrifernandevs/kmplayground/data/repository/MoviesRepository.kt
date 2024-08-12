@@ -1,20 +1,23 @@
 package com.adrifernandevs.kmplayground.data.repository
 
 import com.adrifernandevs.kmplayground.data.database.MoviesDao
+import com.adrifernandevs.kmplayground.data.remote.service.MoviesService
 import com.adrifernandevs.kmplayground.data.response.toMovie
 import com.adrifernandevs.kmplayground.data.response.toMovieList
-import com.adrifernandevs.kmplayground.data.service.MoviesService
 import com.adrifernandevs.kmplayground.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
 
 class MoviesRepository(
     private val moviesService: MoviesService,
-    private val moviesDao: MoviesDao
+    private val moviesDao: MoviesDao,
+    private val regionRepository: RegionRepository
 ) {
     val movies: Flow<List<Movie>> = moviesDao.fetchPopularMovies().onEach { movies ->
         if (movies.isEmpty()) {
-            val popularMoviesFromService = moviesService.fetchPopularMovies().results.toMovieList()
+            val region = regionRepository.fetchRegion()
+            val popularMoviesFromService =
+                moviesService.fetchPopularMovies(region).results.toMovieList()
             moviesDao.insertMovies(popularMoviesFromService)
         }
     }

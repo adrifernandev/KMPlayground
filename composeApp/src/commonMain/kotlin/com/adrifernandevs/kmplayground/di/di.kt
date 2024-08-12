@@ -4,8 +4,9 @@ import androidx.room.RoomDatabase
 import com.adrifernandevs.kmplayground.BuildConfig
 import com.adrifernandevs.kmplayground.data.database.MoviesDao
 import com.adrifernandevs.kmplayground.data.database.MoviesDatabase
+import com.adrifernandevs.kmplayground.data.remote.service.MoviesService
 import com.adrifernandevs.kmplayground.data.repository.MoviesRepository
-import com.adrifernandevs.kmplayground.data.service.MoviesService
+import com.adrifernandevs.kmplayground.data.repository.RegionRepository
 import com.adrifernandevs.kmplayground.ui.screens.detail.viewmodel.DetailViewModel
 import com.adrifernandevs.kmplayground.ui.screens.home.viewmodel.HomeViewModel
 import io.ktor.client.HttpClient
@@ -32,6 +33,7 @@ val appModule = module {
 
 val dataModule = module {
     factoryOf(::MoviesRepository)
+    factoryOf(::RegionRepository)
     factoryOf(::MoviesService)
     single {
         HttpClient {
