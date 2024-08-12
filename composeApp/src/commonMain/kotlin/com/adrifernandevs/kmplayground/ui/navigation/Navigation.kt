@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.adrifernandevs.kmplayground.BuildConfig
 import com.adrifernandevs.kmplayground.data.database.MoviesDao
 import com.adrifernandevs.kmplayground.data.repository.MoviesRepository
 import com.adrifernandevs.kmplayground.data.service.MoviesService
@@ -20,10 +21,7 @@ import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
-import kmplayground.composeapp.generated.resources.Res
-import kmplayground.composeapp.generated.resources.tmdb_api_key
 import kotlinx.serialization.json.Json
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun Navigation(
@@ -66,9 +64,9 @@ fun Navigation(
 
 @Composable
 private fun rememberMoviesRepository(
-    apiKey: String = stringResource(Res.string.tmdb_api_key),
     moviesDao: MoviesDao
 ): MoviesRepository = remember {
+    val apiKey = BuildConfig.TMDB_API_KEY
     val client =
         HttpClient {
             install(ContentNegotiation) {

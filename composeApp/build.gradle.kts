@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -10,6 +11,7 @@ plugins {
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidxRoom)
+    alias(libs.plugins.gradleBuildConfig)
 }
 
 kotlin {
@@ -118,4 +120,14 @@ tasks.withType<KotlinCompile<*>>().configureEach {
 
 room {
     schemaDirectory("$projectDir/schemas")
+}
+
+buildConfig {
+    packageName("com.adrifernandevs.kmplayground")
+
+    val properties = Properties()
+    properties.load(project.rootProject.file("local.properties").reader())
+    val tmdbApiKey = properties.getProperty("TMDB_API_KEY")
+
+    buildConfigField("TMDB_API_KEY", tmdbApiKey)
 }
