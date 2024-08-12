@@ -1,9 +1,10 @@
 package com.adrifernandevs.kmplayground
 
 import androidx.compose.ui.window.ComposeUIViewController
-import com.adrifernandevs.kmplayground.data.database.getDatabaseBuilder
+import com.adrifernandevs.kmplayground.di.initKoin
 
-fun MainViewController() = ComposeUIViewController {
-    val database = getDatabaseBuilder().build().moviesDao()
-    App(database)
+fun MainViewController() = ComposeUIViewController(
+    configure = { initKoin() }
+) {
+    App()
 }

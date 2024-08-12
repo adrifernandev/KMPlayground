@@ -7,16 +7,14 @@ import coil3.annotation.ExperimentalCoilApi
 import coil3.compose.setSingletonImageLoaderFactory
 import coil3.request.crossfade
 import coil3.util.DebugLogger
-import com.adrifernandevs.kmplayground.data.database.MoviesDao
 import com.adrifernandevs.kmplayground.ui.navigation.Navigation
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.KoinContext
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
 @Preview
-fun App(
-    moviesDao: MoviesDao
-) {
+fun App() {
     MaterialTheme {
         setSingletonImageLoaderFactory { context ->
             ImageLoader.Builder(context)
@@ -24,8 +22,8 @@ fun App(
                 .logger(DebugLogger())
                 .build()
         }
-        Navigation(
-            moviesDao = moviesDao,
-        )
+        KoinContext {
+            Navigation()
+        }
     }
 }

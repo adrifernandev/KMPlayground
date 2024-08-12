@@ -38,6 +38,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.koin.android)
             implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
@@ -58,6 +59,10 @@ kotlin {
             implementation(libs.ktor.serialization.json)
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqliteBundled)
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
