@@ -16,16 +16,10 @@ struct HomeScreen: View {
         SharedViewModelStoreOwner<HomeViewModel>()
     @StateObject var locationManager = LocationManager()
     
-    var viewModel: HomeViewModel
-    
-    init() {
-        viewModel = HomeViewModel()
-    }
-    
     var body: some View {
         NavigationView{
             VStack {
-                Observing(viewModel.state){ state in
+                Observing(viewModelStoreOwner.instance.state){ state in
                     if (state.isLoading) {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle())
@@ -53,7 +47,7 @@ struct HomeScreen: View {
             .navigationTitle(Text("KMPlayground"))
         }.onAppear {
             //locationManager.requestPermission {
-                viewModel.onEvent(event: HomeViewModel.UiEventOnUiReady())
+                viewModelStoreOwner.instance.onEvent(event: HomeViewModel.UiEventOnUiReady())
             //}
         }
     }
