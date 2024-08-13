@@ -76,8 +76,12 @@ struct MovieDetail: View {
             }
         }
         .navigationTitle(movie.title)
-        .navigationBarItems(trailing: Button(action: onFavoriteClick) {
-            Image(systemName: movie.isFavorite ? "heart.fill" : "heart")
-        })
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: onFavoriteClick) {
+                    Image(systemName: movie.isFavorite ? "heart.fill" : "heart")
+                }
+            }
+        }
     }
 }

@@ -81,11 +81,11 @@ struct MovieItemView: View {
                             EmptyView()
                         }
                     }
-                }
-                if (movie.isFavorite) {
-                    Image(systemName: "heart.fill")
-                        .foregroundColor(.white)
-                        .padding(5)
+                    if (movie.isFavorite) {
+                        Image(systemName: "heart.fill")
+                            .foregroundColor(.white)
+                            .padding(8)
+                    }
                 }
             }
             .aspectRatio(2/3, contentMode: .fit)
