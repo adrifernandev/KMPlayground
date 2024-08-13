@@ -14,7 +14,8 @@ import ComposeApp
 struct HomeScreen: View {
     @StateObject var viewModelStoreOwner =
         SharedViewModelStoreOwner<HomeViewModel>()
-    @StateObject var locationManager = LocationManager()
+    @StateObject var locationManager =
+        LocationManager()
     
     var body: some View {
         NavigationView{
@@ -45,10 +46,11 @@ struct HomeScreen: View {
                 }
             }
             .navigationTitle(Text("KMPlayground"))
-        }.onAppear {
-            //locationManager.requestPermission {
-                viewModelStoreOwner.instance.onEvent(event: HomeViewModel.UiEventOnUiReady())
-            //}
+            .onAppear {
+                locationManager.requestPermission(completion: {
+                    viewModelStoreOwner.instance.onEvent(event: HomeViewModel.UiEventOnUiReady())
+                })
+            }
         }
     }
 }

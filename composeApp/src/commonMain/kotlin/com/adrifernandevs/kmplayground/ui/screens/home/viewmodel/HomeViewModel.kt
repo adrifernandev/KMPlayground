@@ -43,5 +43,4 @@ class HomeViewModel : ViewModel(), KoinComponent {
             }
         }
     }
-
 }
