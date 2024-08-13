@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidxRoom)
     alias(libs.plugins.gradleBuildConfig)
+    alias(libs.plugins.skie)
 }
 
 kotlin {
@@ -137,4 +138,10 @@ buildConfig {
     val tmdbApiKey = properties.getProperty("TMDB_API_KEY")
 
     buildConfigField("TMDB_API_KEY", tmdbApiKey)
+}
+
+skie {
+    features {
+        enableSwiftUIObservingPreview = true
+    }
 }

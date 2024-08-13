@@ -7,11 +7,14 @@ import com.adrifernandevs.kmplayground.domain.model.Movie
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class DetailViewModel(
     private val movieId: Int,
-    private val moviesRepository: MoviesRepository,
-) : ViewModel() {
+) : ViewModel(), KoinComponent {
+
+    private val moviesRepository: MoviesRepository by inject()
 
     data class UiState(
         val isLoading: Boolean = true,
