@@ -6,6 +6,7 @@ import com.adrifernandevs.kmplayground.data.repository.MoviesRepository
 import com.adrifernandevs.kmplayground.domain.model.Movie
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -26,7 +27,7 @@ class DetailViewModel(
     }
 
     private val _state = MutableStateFlow(UiState())
-    val state: StateFlow<UiState> = _state
+    val state: StateFlow<UiState> = _state.asStateFlow()
 
     init {
         fetchMovieById()

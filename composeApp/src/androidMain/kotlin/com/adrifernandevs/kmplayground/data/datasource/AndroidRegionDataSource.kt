@@ -1,5 +1,6 @@
 package com.adrifernandevs.kmplayground.data.datasource
 
+import android.annotation.SuppressLint
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -13,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 
 class AndroidRegionDataSource(
     private val geocoder: Geocoder,
@@ -29,12 +29,13 @@ class AndroidRegionDataSource(
     }
 }
 
+@SuppressLint("MissingPermission")
 private suspend fun FusedLocationProviderClient.lastLocation(): Location? {
     return suspendCancellableCoroutine { continuation ->
         lastLocation.addOnSuccessListener { location ->
             continuation.resume(location)
-        }.addOnFailureListener { exception ->
-            continuation.resumeWithException(exception)
+        }.addOnFailureListener { _ ->
+            continuation.resume(null)
         }
     }
 }
