@@ -12,12 +12,13 @@ import SwiftUI
 import ComposeApp
 
 struct HomeScreen: View {
-    var viewModel = HomeViewModel()
+    @StateObject var viewModelStoreOwner =
+        SharedViewModelStoreOwner<HomeViewModel>()
     
     var body: some View {
         NavigationView{
             VStack {
-                Observing(viewModel.state){ state in
+                Observing(viewModelStoreOwner.instance.state){ state in
                     if (state.isLoading) {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle())
@@ -44,7 +45,7 @@ struct HomeScreen: View {
             }
             .navigationTitle(Text("KMPlayground"))
         }.onAppear {
-            viewModel.onEvent(event: HomeViewModel.UiEventOnUiReady())
+            viewModelStoreOwner.instance.onEvent(event: HomeViewModel.UiEventOnUiReady())
         }
         
     }

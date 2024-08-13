@@ -10,14 +10,18 @@ import SwiftUI
 import ComposeApp
 
 struct DetailScreen: View {
-    var viewModel: DetailViewModel
+    @StateObject var viewModelStoreOwner:
+        SharedViewModelStoreOwner<DetailViewModel>
     
     init(movieId: Int32){
-        viewModel = DetailViewModel(movieId: movieId)
+        self._viewModelStoreOwner = 
+            StateObject(
+                wrappedValue: SharedViewModelStoreOwner(DetailViewModel(movieId: movieId))
+            )
     }
     
     var body: some View {
-        Observing(viewModel.state) { state in
+        Observing(viewModelStoreOwner.instance.state) { state in
             VStack {
                 if(state.isLoading) {
                     ProgressView()
@@ -27,7 +31,7 @@ struct DetailScreen: View {
                 if let movieDetail = state.movie {
                     MovieDetail(
                         movie: movieDetail,
-                        onFavoriteClick: { viewModel.onEvent(event: DetailViewModel.UiEventOnFavouriteClicked()) }
+                        onFavoriteClick: { viewModelStoreOwner.instance.onEvent(event: DetailViewModel.UiEventOnFavouriteClicked()) }
                     )
                 }
             }
