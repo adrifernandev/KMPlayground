@@ -13,12 +13,13 @@ class MoviesRepository(
     private val moviesDao: MoviesDao,
     private val regionRepository: RegionRepository
 ) {
-    val movies: Flow<List<Movie>> = moviesDao.fetchPopularMovies().onEach { movies ->
+    val movies = moviesDao.fetchPopularMovies().onEach { movies ->
         if (movies.isEmpty()) {
             val region = regionRepository.fetchRegion()
             val popularMoviesFromService =
                 moviesService.fetchPopularMovies(region).results.toMovieList()
             moviesDao.insertMovies(popularMoviesFromService)
+            println("filmss inserted $popularMoviesFromService")
         }
     }
 

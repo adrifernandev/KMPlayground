@@ -9,8 +9,7 @@
 import Foundation
 import ComposeApp
 
-class SharedViewModelStoreOwner<VM: ViewModel>: ObservableObject, ViewModelStoreOwner {
-    
+class SharedViewModelStoreOwner<VM : ViewModel> : ObservableObject, ViewModelStoreOwner {
     var viewModelStore: ViewModelStore = ViewModelStore()
     
     private let key: String = String(describing: type(of: VM.self))

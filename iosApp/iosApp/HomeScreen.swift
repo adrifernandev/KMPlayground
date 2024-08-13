@@ -12,10 +12,8 @@ import SwiftUI
 import ComposeApp
 
 struct HomeScreen: View {
-    @StateObject var viewModelStoreOwner =
-        SharedViewModelStoreOwner<HomeViewModel>()
-    @StateObject var locationManager =
-        LocationManager()
+    @StateObject var viewModelStoreOwner = SharedViewModelStoreOwner<HomeViewModel>()
+    @StateObject var locationManager = LocationManager()
     
     var body: some View {
         NavigationView{
